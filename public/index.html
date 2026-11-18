@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <title>WB AI — OpenAI-совместимый шлюз</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar" id="sidebar">
+        <div class="brand">
+          <div class="brand-mark">WB</div>
+          <div>
+            <div class="brand-title">AI gateway</div>
+            <div class="brand-sub">OpenAI-compatible</div>
+          </div>
+        </div>
+
+        <button class="new-chat" id="newChat" type="button">
+          <span class="plus">+</span> Новый чат
+        </button>
+        <nav class="chat-list" id="chatList" aria-label="История чатов"></nav>
+
+        <div class="sidebar-footer">
+          <button class="ghost-btn" id="openSettings" type="button">Настройки WB</button>
+          <a class="ghost-btn" href="/v1/models" target="_blank" rel="noreferrer">/v1/models</a>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <button class="icon-btn mobile-only" id="menuBtn" type="button" aria-label="Меню">☰</button>
+          <div class="topbar-title" id="chatTitle">Новый чат</div>
+          <div class="status" id="status" title="Состояние сессии Wildberries">
+            <span class="dot" id="statusDot"></span>
+            <span id="statusText">проверка…</span>
+          </div>
+        </header>
+
+        <section class="messages" id="messages" aria-live="polite"></section>
+
+        <form class="composer" id="composer">
+          <textarea
+            id="input"
+            rows="1"
+            placeholder="Спросите что-нибудь у WB AI…"
+            autocomplete="off"
+          ></textarea>
+          <button class="send" id="send" type="submit">Отправить</button>
+          <button class="send stop hidden" id="stop" type="button">Стоп</button>
+        </form>
+        <div class="hint">
+          Enter — отправить · Shift+Enter — новая строка · ответы генерирует ИИ-ассистент Wildberries
+        </div>
+      </main>
+    </div>
+
+    <dialog id="settings" class="settings">
+      <form method="dialog" class="settings-card" id="settingsForm">
+        <div class="settings-head">
+          <h2>Подключение WB</h2>
+          <button class="icon-btn" id="closeSettings" value="close" aria-label="Закрыть" type="submit">✕</button>
+        </div>
+
+        <div class="callout" id="settingsStatus">Проверяем состояние…</div>
+
+        <label class="field">
+          <span>JWT (Authorization: Bearer)</span>
+          <input id="jwt" type="password" autocomplete="off" spellcheck="false" placeholder="оставьте пустым, чтобы не менять" />
+        </label>
+
+        <label class="field">
+          <span>Admin token (если задан на сервере)</span>
+          <input id="adminToken" type="password" autocomplete="off" spellcheck="false" placeholder="оставьте пустым, если не используется" />
+        </label>
+
+        <label class="field">
+          <span>x-userdata (uv)</span>
+          <textarea id="userData" rows="3" spellcheck="false" placeholder="значение заголовка x-userdata"></textarea>
+        </label>
+
+        <label class="field">
+          <span>Cookie (необязательно)</span>
+          <textarea id="cookie" rows="2" spellcheck="false" placeholder="x_wbaas_token=…; _wbauid=…"></textarea>
+        </label>
+
+        <label class="field">
+          <span>user_metadata (JSON, необязательно)</span>
+          <textarea id="userMetadata" rows="4" spellcheck="false" placeholder='{"device_id":"site_…","dest":"1259570991"}'></textarea>
+        </label>
+
+        <label class="field">
+          <span>Системный промпт</span>
+          <textarea id="systemPrompt" rows="3" placeholder="Например: отвечай кратко и по делу"></textarea>
+        </label>
+
+        <div class="settings-actions">
+          <button class="primary" id="saveSettings" type="button">Сохранить</button>
+          <button class="secondary" id="testSettings" type="button">Проверить</button>
+          <button class="danger-ghost" id="clearSettings" type="button">Очистить</button>
+        </div>
+        <div class="test-result" id="testResult"></div>
+        <p class="fineprint">«Проверить» использует уже сохранённые значения.</p>
+
+        <details class="capture">
+          <summary>Как получить JWT, x-userdata и cookie</summary>
+          <ol>
+            <li>Откройте <a href="https://www.wildberries.ru/" target="_blank" rel="noreferrer">wildberries.ru</a> в Chrome, где вы авторизованы.</li>
+            <li>Откройте ИИ-ассистента (кнопка со звёздочками) и отправьте любое сообщение.</li>
+            <li>В DevTools → Network найдите <code>chat/v5/message</code>. Скопируйте <code>authorization</code>, <code>x-userdata</code> и, если нужен, <code>cookie</code> из Request Headers.</li>
+            <li>Либо вставьте сниппет ниже в Console и отправьте сообщение ещё раз — он сам скопирует JSON в буфер.</li>
+          </ol>
+          <pre id="captureSnippet"></pre>
+          <button class="secondary" id="copySnippet" type="button">Скопировать сниппет</button>
+        </details>
+
+        <p class="fineprint">
+          Данные хранятся только локально в <code>data/session.json</code> (chmod 600) и уходят
+          только на <code>ai-proxy.wildberries.ru</code>. JWT живёт ограниченное время; при 401
+          обновите значения.
+        </p>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status"></div>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+{
+  "name": "wildberries-ai-openai",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "OpenAI-compatible gateway and simple web UI for the Wildberries AI assistant",
+  "scripts": {
+    "start": "bun src/server.ts",
+    "dev": "bun --watch src/server.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "check": "bun run typecheck && bun test"
+  },
+  "engines": {
+    "bun": ">=1.1"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.4",
+    "typescript": "^7.0.2"
+  },
+  "license": "MIT",
+  "author": "Georgiy Panin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NovaStream2030/wildberries-ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NovaStream2030/wildberries-ai/issues"
+  },
+  "homepage": "https://github.com/NovaStream2030/wildberries-ai#readme",
+  "keywords": [
+    "wildberries",
+    "openai",
+    "openai-compatible",
+    "ai",
+    "gateway",
+    "bun",
+    "llm",
+    "chat"
+  ]
+}
