@@ -37,14 +37,3 @@ Requires Bun 1.1 or newer.
 - Run `bun run check`.
 - Keep diffs focused. If you change the upstream wire format, update
   `README.md` and the relevant tests.
-
-## Adding a provider for OMP
-
-`README.md` contains the `~/.omp/agent/models.yml` snippet. The gateway is a
-plain OpenAI Chat Completions endpoint, so any OpenAI-compatible client works:
-
-```text
-base URL: http://127.0.0.1:8787/v1
-model:    wb-assistant
-api key:  not required (auth: none)
-```

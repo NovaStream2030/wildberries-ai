@@ -19,6 +19,6 @@ Initial public release.
   `data/session.json` still read.
 - Hardened browser surface: restricted CORS, CSP, body limit, loopback-only
   writes or `ADMIN_TOKEN`.
-- OMP `models.yml` integration documented and verified.
+- Verified with a generic OpenAI-compatible client.
 - 29 tests with a fake WB SSE server.
 - Cross-site Origin guard and JSON content-type enforcement.
